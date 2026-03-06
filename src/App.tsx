@@ -446,7 +446,14 @@ function Nav({ scrolled, C, currentPage, onNavigate }: any) {
 
         {/* Right side */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <button style={{
+          <button onClick={() => {
+            if (currentPage !== "home") {
+              onNavigate("home");
+              setTimeout(() => document.getElementById("quiz")?.scrollIntoView({ behavior: "smooth" }), 100);
+            } else {
+              document.getElementById("quiz")?.scrollIntoView({ behavior: "smooth" });
+            }
+          }} style={{
             background: C.overlay, border: `1px solid ${C.overlayBorder}`,
             color: C.white, borderRadius: 999, padding: "9px clamp(14px,2vw,24px)",
             fontSize: "0.76rem", cursor: "pointer", transition: "all .3s", whiteSpace: "nowrap",
@@ -1532,11 +1539,11 @@ export default function App() {
                   </p>
 
                   <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                    <button style={{ background: C.mint, color: "#060d0a", border: "none", borderRadius: 999, padding: "14px clamp(22px,3vw,38px)", fontWeight: 600, fontSize: "0.86rem", cursor: "pointer", transition: "all .3s", boxShadow: "0 0 0 rgba(207,255,229,0)" }}
+                    <button onClick={() => document.getElementById("lab")?.scrollIntoView({ behavior: "smooth" })} style={{ background: C.mint, color: "#060d0a", border: "none", borderRadius: 999, padding: "14px clamp(22px,3vw,38px)", fontWeight: 600, fontSize: "0.86rem", cursor: "pointer", transition: "all .3s", boxShadow: "0 0 0 rgba(207,255,229,0)" }}
                       onMouseEnter={e => { const t = e.currentTarget as any; t.style.boxShadow = "0 0 28px rgba(207,255,229,0.35)"; t.style.transform = "translateY(-2px)"; }}
                       onMouseLeave={e => { const t = e.currentTarget as any; t.style.boxShadow = "none"; t.style.transform = "translateY(0)"; }}
                     >Explore Formulas 🧪</button>
-                    <button style={{ background: C.overlay, color: C.white, border: `1px solid ${C.overlayBorder}`, borderRadius: 999, padding: "14px clamp(22px,3vw,38px)", fontWeight: 400, fontSize: "0.86rem", cursor: "pointer", transition: "background .3s" }}
+                    <button onClick={() => setPage("process")} style={{ background: C.overlay, color: C.white, border: `1px solid ${C.overlayBorder}`, borderRadius: 999, padding: "14px clamp(22px,3vw,38px)", fontWeight: 400, fontSize: "0.86rem", cursor: "pointer", transition: "background .3s" }}
                       onMouseEnter={e => (e.currentTarget as any).style.background = C.overlayHover}
                       onMouseLeave={e => (e.currentTarget as any).style.background = C.overlay}
                     >📖 Science Basis</button>
@@ -1596,11 +1603,15 @@ export default function App() {
             </div>
           </div>
 
-          <QuizSection C={C} onViewFormula={setFormulaModalKey} />
+          <div id="quiz">
+            <QuizSection C={C} onViewFormula={setFormulaModalKey} />
+          </div>
           <ResultsSection C={C} />
           <BentoGrid C={C} />
           <CapsuleSection C={C} />
-          <LabSection C={C} onViewFormula={setFormulaModalKey} />
+          <div id="lab">
+            <LabSection C={C} onViewFormula={setFormulaModalKey} />
+          </div>
           <CompareSection C={C} />
           <FAQSection C={C} />
           <Timeline C={C} />
